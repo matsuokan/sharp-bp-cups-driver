@@ -1,0 +1,50 @@
+*PPD-Adobe: "4.3"
+*FormatVersion: "4.3"
+*FileVersion: "1.0"
+*LanguageVersion: Japanese
+*LanguageEncoding: ISOLatin1
+*Manufacturer: "Konica Minolta"
+*Product: "(Konica Minolta bizhub C3320i)"
+*ModelName: "Konica Minolta bizhub C3320i"
+*NickName: "Konica Minolta bizhub C3320i"
+*ShortNickName: "Konica Minolta bizhub C3320i"
+*ColorDevice: True
+*DefaultColorSpace: RGB
+*FileSystem: False
+*Throughput: "33"
+*LandscapeOrientation: Plus90
+*cupsVersion: 2.0
+*cupsSNMPSupplies: False
+*cupsIPPSupplies: True
+*% PDF→URF変換（AirPrint互換ラスター形式で送信）
+*cupsFilter2: "application/pdf application/octet-stream 0 pdftourf"
+*cupsFilter2: "application/postscript application/octet-stream 100 gstopdf"
+*cupsFilter2: "application/vnd.cups-postscript application/octet-stream 100 gstopdf"
+*DefaultResolution: 600dpi
+*Resolution 600dpi/600 DPI: ""
+*DefaultPageSize: A4
+*PageSize A4/A4: "<</PageSize[595 842]/ImagingBBox null>>setpagedevice"
+*PageSize Letter/Letter: "<</PageSize[612 792]/ImagingBBox null>>setpagedevice"
+*PageSize A3/A3: "<</PageSize[842 1191]/ImagingBBox null>>setpagedevice"
+*DefaultPageRegion: A4
+*PageRegion A4/A4: "<</PageSize[595 842]/ImagingBBox null>>setpagedevice"
+*PageRegion Letter/Letter: "<</PageSize[612 792]/ImagingBBox null>>setpagedevice"
+*PageRegion A3/A3: "<</PageSize[842 1191]/ImagingBBox null>>setpagedevice"
+*DefaultImageableArea: A4
+*ImageableArea A4/A4: "8 8 587 834"
+*ImageableArea Letter/Letter: "8 8 604 784"
+*ImageableArea A3/A3: "8 8 834 1183"
+*DefaultPaperDimension: A4
+*PaperDimension A4/A4: "595 842"
+*PaperDimension Letter/Letter: "612 792"
+*PaperDimension A3/A3: "842 1191"
+*DefaultColorModel: RGB
+*ColorModel RGB/カラー: "<</cupsColorSpace 1/cupsBitsPerColor 8/cupsColorOrder 0>>setpagedevice"
+*ColorModel Gray/グレースケール: "<</cupsColorSpace 0/cupsBitsPerColor 8/cupsColorOrder 0>>setpagedevice"
+*DefaultDuplex: None
+*Duplex None/片面印刷: "<</Duplex false>>setpagedevice"
+*Duplex DuplexNoTumble/両面（長辺綴じ）: "<</Duplex true/Tumble false>>setpagedevice"
+*Duplex DuplexTumble/両面（短辺綴じ）: "<</Duplex true/Tumble true>>setpagedevice"
+*DefaultOutputBin: Default
+*OutputBin Default/標準: ""
+*EOF

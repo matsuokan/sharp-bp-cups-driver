@@ -1,35 +1,18 @@
 # sharp-bp-cups-driver
 
-SHARP BP シリーズプリンター（BP-40C26 等）の Linux / CUPS 用ドライバーです。
+SHARP BP シリーズを含む **日本製複合機の Linux / CUPS 用ドライバー集**です。
 
-Debian / Ubuntu で **LibreOffice・ブラウザ・コマンドラインから印刷できます。**
+Debian / Ubuntu で LibreOffice・ブラウザ・コマンドラインから印刷できます。
 
 ---
 
 ## なぜこのドライバーが必要か
 
-SHARP BP シリーズは IPP で「PDF 対応」と返答しますが、**実際には URF（Apple AirPrint 用ラスター形式）でないと印刷されません。** このドライバーは PDF を URF に変換してから送信することで問題を解決しています。
+多くの日本製複合機は IPP で「PDF対応」と返答しますが、**実際には URF（Apple AirPrint 用ラスター形式）でないと印刷されません。** このドライバーは PDF を URF に変換して送信します。
 
 ```
-アプリ → PDF → [pdftourf] URF変換 → [sharpipp] IPP送信 → SHARP プリンター ✅
+アプリ → PDF → [pdftourf] URF変換 → [sharpipp] IPP送信 → 複合機 ✅
 ```
-
----
-
-## 対応機種
-
-| 機種 | 確認済み |
-|---|---|
-| SHARP BP-40C26 | ✅ |
-| SHARP BP シリーズ（他機種） | 未確認（おそらく動作） |
-
----
-
-## 必要環境
-
-- **OS**: Debian 12+ / Ubuntu 22.04+
-- **パッケージ**: `cups`, `ghostscript`, `ipptool`（インストールスクリプトで自動インストール）
-- **接続**: WiFi / LAN 経由（プリンターの IP アドレスが必要）
 
 ---
 
@@ -38,63 +21,70 @@ SHARP BP シリーズは IPP で「PDF 対応」と返答しますが、**実際
 ```bash
 git clone https://github.com/matsuokan/sharp-bp-cups-driver
 cd sharp-bp-cups-driver
-sudo bash install.sh 192.168.X.X   # プリンターの IP アドレスを指定
+sudo bash install.sh 192.168.X.X          # 対話式（機種を選択）
+sudo bash install.sh 192.168.X.X sharp BP-40C26  # 直接指定
 ```
 
-### テスト印刷
+---
+
+## 対応機種
+
+| メーカー | 機種 | ステータス | 備考 |
+|---|---|:---:|---|
+| **SHARP** | BP-40C26 | ✅ 確認済み | LibreOffice/ブラウザ動作確認 |
+| **SHARP** | MX-3070 | ⚠️ テンプレート | 実機テスト求む |
+| **SHARP** | MX-4070 | ⚠️ テンプレート | 実機テスト求む |
+| **RICOH** | IM 2702 | ⚠️ テンプレート | 実機テスト求む |
+| **RICOH** | MP C3004 | ⚠️ テンプレート | 実機テスト求む |
+| **Canon** | iR-ADV C3826 | ⚠️ テンプレート | 実機テスト求む |
+| **Canon** | imageRUNNER 2625 | ⚠️ テンプレート | 実機テスト求む |
+| **Konica Minolta** | bizhub C3320i | ⚠️ テンプレート | 実機テスト求む |
+| **Konica Minolta** | bizhub C458 | ⚠️ テンプレート | 実機テスト求む |
+| **Kyocera** | TASKalfa 2553ci | ⚠️ テンプレート | 実機テスト求む |
+| **Kyocera** | ECOSYS M6635cidn | ⚠️ テンプレート | 実機テスト求む |
+| **Fujifilm** | Apeos C3571 | ⚠️ テンプレート | 実機テスト求む |
+| **Fujifilm** | DocuCentre-VI C2271 | ⚠️ テンプレート | 実機テスト求む |
+| **Toshiba** | e-STUDIO 2518A | ⚠️ テンプレート | 実機テスト求む |
+| **Toshiba** | e-STUDIO 4518A | ⚠️ テンプレート | 実機テスト求む |
+
+> ⭐ 動作確認済みの方は **Issue** または **PR** で報告してください！
+
+---
+
+## 必要環境
+
+- **OS**: Debian 12+ / Ubuntu 22.04+
+- **接続**: WiFi / LAN（プリンターの IP アドレスが必要）
+- 依存パッケージはインストーラーが自動インストール
+
+---
+
+## アンインストール
 
 ```bash
-lp -d SHARP-BP40C26 /usr/share/cups/data/default-testpage.pdf
+sudo bash install.sh --uninstall SHARP-BP40C26
 ```
 
 ---
 
-## 使い方
+## 新機種の調査ツール
 
-インストール後は通常通り印刷できます。
-
-- **LibreOffice**: ファイル → 印刷 → `SHARP-BP40C26` を選択
-- **ブラウザ**: 印刷 → `SHARP-BP40C26` を選択
-- **コマンドライン**: `lp -d SHARP-BP40C26 ファイル名.pdf`
-
----
-
-## ファイル構成
-
-```
-sharp-bp-cups-driver/
-├── install.sh                  # インストールスクリプト
-├── driver/
-│   ├── SHARP-BP40C26.ppd       # プリンター定義ファイル
-│   ├── filter/
-│   │   └── pdftourf            # PDF→URF変換フィルター（Ghostscript使用）
-│   └── backend/
-│       └── sharpipp            # IPPバックエンド（ipptool使用）
-└── docs/
-    ├── how-it-works.md         # 技術的な説明
-    └── troubleshooting.md      # トラブルシューティング
+```bash
+# プリンターの IPP 属性を調査
+bash tools/probe-printer.sh 192.168.X.X
 ```
 
 ---
 
-## 技術的な詳細
+## 技術詳細・トラブルシューティング
 
-[docs/how-it-works.md](docs/how-it-works.md) を参照。
-
----
-
-## トラブルシューティング
-
-[docs/troubleshooting.md](docs/troubleshooting.md) を参照。
+- [仕組みの説明](docs/how-it-works.md)
+- [トラブルシューティング](docs/troubleshooting.md)
+- [開発ロードマップ](docs/roadmap.md)
+- [AI開発者向けガイド](CLAUDE.md)
 
 ---
 
 ## ライセンス
 
-MIT License
-
----
-
-## 貢献
-
-Issue・PR 歓迎です。他の SHARP BP シリーズ機種での動作報告もお待ちしています。
+MIT License — Developed by MetaDataLab Inc.
