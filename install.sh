@@ -52,8 +52,8 @@ sleep 2
 
 # フィルター・バックエンドをインストール
 echo "[3/4] ドライバーファイルをインストール中..."
-install -m 755 "$SCRIPT_DIR/driver/filter/$FILTER_NAME"   /usr/lib/cups/filter/$FILTER_NAME
-install -m 700 "$SCRIPT_DIR/driver/backend/sharpipp"      /usr/lib/cups/backend/sharpipp
+install -m 755 "$SCRIPT_DIR/core/filter/$FILTER_NAME"   /usr/lib/cups/filter/$FILTER_NAME
+install -m 700 "$SCRIPT_DIR/core/backend/sharpipp"      /usr/lib/cups/backend/sharpipp
 
 # 既存キューを削除して再作成
 lpadmin -x "$PRINTER_NAME" 2>/dev/null || true
@@ -61,7 +61,7 @@ lpadmin -x "$PRINTER_NAME" 2>/dev/null || true
 echo "[4/4] プリンターキューを設定中..."
 lpadmin -p "$PRINTER_NAME" \
     -v "sharpipp://${PRINTER_IP}:631/ipp/lp" \
-    -P "$SCRIPT_DIR/driver/$PPD_FILE" \
+    -P "$SCRIPT_DIR/drivers/sharp/BP-40C26/$PPD_FILE" \
     -D "SHARP BP-40C26" \
     -E
 
