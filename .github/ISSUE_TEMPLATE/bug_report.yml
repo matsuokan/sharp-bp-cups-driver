@@ -1,0 +1,29 @@
+name: 動作報告 / Bug Report
+description: 動作確認・不具合を報告する
+title: "[機種名] 動作報告 / 不具合"
+labels: ["bug"]
+body:
+  - type: input
+    id: model
+    attributes:
+      label: プリンター機種
+      placeholder: "例: SHARP BP-40C26"
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: OS / ディストリビューション
+      placeholder: "例: Debian 13, Ubuntu 24.04"
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: デバッグログ
+      description: "`sudo cat /tmp/sharpipp-debug.log` の出力を貼り付けてください"
+      render: shell
+  - type: textarea
+    id: description
+    attributes:
+      label: 詳しい状況

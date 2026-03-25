@@ -1,0 +1,27 @@
+#!/bin/bash
+# CUPS Filter: pdftourf
+# PDF → URF (Universal Raster Format) 変換
+# SHARP BP-40C26 専用: document-format-default=image/urf のため URF で送信必須
+#
+# 引数: job-id user title copies options [filename]
+
+TMPURF=$(mktemp /tmp/sharp-urf-XXXXXX.urf)
+trap "rm -f '$TMPURF'" EXIT
+
+if [ -n "$6" ]; then
+    INPUT="$6"
+else
+    TMPIN=$(mktemp /tmp/sharp-in-XXXXXX.pdf)
+    cat > "$TMPIN"
+    INPUT="$TMPIN"
+    trap "rm -f '$TMPURF' '$TMPIN'" EXIT
+fi
+
+# GhostscriptでPDF→URF変換（600dpi、sRGB24ビット）
+gs -q -dNOPAUSE -dBATCH -dSAFER \
+   -sDEVICE=urfrgb \
+   -r600 \
+   -sOutputFile="$TMPURF" \
+   "$INPUT" 2>/dev/null
+
+cat "$TMPURF"

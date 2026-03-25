@@ -1,0 +1,63 @@
+#!/bin/bash
+# CUPS Backend: sharpipp v4
+# SHARP BP-40C26 専用
+LOG="/tmp/sharpipp-debug.log"
+
+if [ $# -eq 0 ]; then
+    echo "network sharpipp \"SHARP\" \"SHARP IPP Direct Backend\""
+    exit 0
+fi
+
+JOB_ID="$1"; PRINT_USER="$2"; TITLE="$3"; COPIES="$4"; OPTIONS="$5"
+PRINTER_URI="${DEVICE_URI/sharpipp/ipp}"
+
+echo "=== sharpipp v4 debug ===" >> "$LOG"
+echo "Time: $(date)" >> "$LOG"
+echo "JOB_ID=$JOB_ID TITLE=$TITLE" >> "$LOG"
+
+PDFFILE=$(mktemp /tmp/sharp-job-XXXXXX.urf)
+IPPTEST=$(mktemp /tmp/sharp-ipp-XXXXXX.test)
+cleanup() { rm -f "$PDFFILE" "$IPPTEST"; }
+trap cleanup EXIT
+
+INPUTFILE="$6"
+if [ -n "$INPUTFILE" ] && [ -f "$INPUTFILE" ]; then
+    cp "$INPUTFILE" "$PDFFILE"
+else
+    cat > "$PDFFILE"
+fi
+
+FSIZE=$(stat -c%s "$PDFFILE" 2>/dev/null || echo 0)
+echo "Input size: $FSIZE bytes" >> "$LOG"
+if [ "$FSIZE" -eq 0 ]; then
+    echo "ERROR: Empty data" >> "$LOG"; exit 1
+fi
+
+# タイトルから特殊文字を除去（ipptool安全化）
+SAFE_TITLE=$(echo "$TITLE" | tr -cd 'a-zA-Z0-9._- ')
+
+# ipptoolテストファイル（ジョブ名とユーザー名を必ずクォート）
+cat > "$IPPTEST" << TESTEOF
+{
+    NAME "Print-Job"
+    OPERATION Print-Job
+    GROUP operation-attributes-tag
+    ATTR charset attributes-charset utf-8
+    ATTR language attributes-natural-language en
+    ATTR uri printer-uri $PRINTER_URI
+    ATTR name requesting-user-name "$PRINT_USER"
+    ATTR name job-name "$SAFE_TITLE"
+    GROUP job-attributes-tag
+    ATTR integer copies $COPIES
+    FILE $PDFFILE
+    STATUS successful-ok
+    STATUS successful-ok-ignored-or-substituted-attributes
+    EXPECT job-id
+}
+TESTEOF
+
+echo "Sending URF to printer..." >> "$LOG"
+ipptool -tv "$PRINTER_URI" "$IPPTEST" >> "$LOG" 2>&1
+RESULT=$?
+echo "Exit: $RESULT" >> "$LOG"
+exit $RESULT
