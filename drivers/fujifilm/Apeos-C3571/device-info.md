@@ -24,4 +24,4 @@ bash tools/probe-printer.sh [プリンターのIPアドレス]
 旧富士ゼロックス系、AirPrint対応
 
 ## 動作確認済みの場合はPRを送ってください
-→ https://github.com/matsuokan/sharp-bp-cups-driver
+→ https://github.com/matsuokan/jpn-mfp-cups-driver

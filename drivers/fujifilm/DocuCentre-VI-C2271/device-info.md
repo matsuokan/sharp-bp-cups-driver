@@ -24,4 +24,4 @@ bash tools/probe-printer.sh [プリンターのIPアドレス]
 旧世代DocuCentre系
 
 ## 動作確認済みの場合はPRを送ってください
-→ https://github.com/matsuokan/sharp-bp-cups-driver
+→ https://github.com/matsuokan/jpn-mfp-cups-driver

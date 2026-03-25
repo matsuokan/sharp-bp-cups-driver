@@ -24,4 +24,4 @@ bash tools/probe-printer.sh [プリンターのIPアドレス]
 SHARPのIPPエンドポイントは /ipp/lp（BP-40C26で確認済み）
 
 ## 動作確認済みの場合はPRを送ってください
-→ https://github.com/matsuokan/sharp-bp-cups-driver
+→ https://github.com/matsuokan/jpn-mfp-cups-driver

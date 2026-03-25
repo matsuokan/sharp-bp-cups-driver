@@ -63,7 +63,7 @@ ipptool -tv ipp://[IP]:631/ipp/lp get-printer-attributes.test | grep -E \
 ## リポジトリ構成（将来版）
 
 ```
-sharp-bp-cups-driver/          ← 現在
+jpn-mfp-cups-driver/          ← 現在
 ricoh-cups-driver/             ← 次
 canon-cups-driver/             ← 次々
 
