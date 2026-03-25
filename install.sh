@@ -27,7 +27,7 @@ fi
 # 依存パッケージのインストール
 echo "[1/4] 必要なパッケージをインストール中..."
 apt-get update -qq
-apt-get install -y cups cups-filters ghostscript ipptool avahi-daemon
+apt-get install -y cups cups-filters ghostscript cups-ipp-utils avahi-daemon
 
 # サービスを起動
 echo "[2/4] サービスを起動中..."
